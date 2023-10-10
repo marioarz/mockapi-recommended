@@ -26,6 +26,15 @@ steps:
         env | grep "^build_" > /workspace/build_vars
 
   - name: 'gcr.io/cloud-builders/mvn'
+    id: "Package bundle"
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        mvn -f Mock-v1/pom.xml -ntp process-resources apigee-enterprise:configure -X \
+          -Ptest -Dorg=$_APIGEE_PROJECT -Denv=$_APIGEE_TEST_ENV
+
+  - name: 'gcr.io/cloud-builders/mvn'
     id: "Deploy bundle"
     entrypoint: 'bash'
     args:
