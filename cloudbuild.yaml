@@ -32,6 +32,18 @@ steps:
       - |
         mvn -f Mock-v1/pom.xml -ntp process-resources apigee-enterprise:configure \
           -Ptest -Dorg=$_APIGEE_PROJECT -Denv=$_APIGEE_TEST_ENV
+
+  - name: 'gcr.io/cloud-builders/mvn'
+    id: "Push Apigee Environment configurations"
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        mvn -f pom.xml -ntp apigee-config:targetservers \
+          -test \
+          -Dorg=$_APIGEE_PROJECT -Denv=$_APIGEE_TEST_ENV \
+          -Dbearer=${build_token} -Doptions=create
+
   - name: 'gcr.io/cloud-builders/mvn'
     id: "Deploy bundle"
     entrypoint: 'bash'
