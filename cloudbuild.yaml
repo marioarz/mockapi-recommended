@@ -31,7 +31,7 @@ steps:
     args:
       - -c
       - |
-        mvn -f Mock-v1/pom.xml -ntp process-resources apigee-enterprise:configure -X \
+        mvn -f Mock-v1/pom.xml -ntp process-resources apigee-enterprise:configure \
           -Ptest -Dorg=$_APIGEE_PROJECT -Denv=$_APIGEE_TEST_ENV
 
   - name: 'gcr.io/cloud-builders/mvn'
